@@ -57,6 +57,7 @@ variable "network_acls" {
     service_endpoint_subnet_ids = list(string)
   })
   description = "Network & Firewall settings for key vault"
+  default     = null
 }
 
 variable "private_endpoint_subnet_id" {
