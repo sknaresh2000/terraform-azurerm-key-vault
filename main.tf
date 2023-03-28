@@ -11,7 +11,7 @@ resource "azurerm_key_vault" "kv" {
   sku_name                      = var.sku_name
   public_network_access_enabled = var.public_network_access_enabled
   tags                          = var.tags
-  dynamic "network_rules" {
+  dynamic "network_acls" {
     for_each = var.public_network_access_enabled == false && var.network_acls != null ? [1] : []
     content {
       bypass                     = var.network_acls.bypass_services_info
