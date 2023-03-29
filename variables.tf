@@ -76,14 +76,3 @@ variable "private_endpoint_kv_subresource_names" {
   description = "A list of subresource names which the Private Endpoint is able to connect to."
   default     = ["vault"]
 }
-
-variable "access_policies" {
-  type = map(object({
-    object_id               = string
-    key_permissions         = list(string)
-    secret_permissions      = list(string)
-    certificate_permissions = list(string)
-  }))
-  description = "Access policies that will be applies to this key vault"
-  default     = {}
-}

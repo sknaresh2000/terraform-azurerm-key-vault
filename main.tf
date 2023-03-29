@@ -34,13 +34,3 @@ resource "azurerm_private_endpoint" "pe" {
     subresource_names              = var.private_endpoint_kv_subresource_names
   }
 }
-
-resource "azurerm_key_vault_access_policy" "access_policies" {
-  for_each                = var.access_policies
-  key_vault_id            = azurerm_key_vault.kv.id
-  tenant_id               = data.azurerm_client_config.current.tenant_id
-  object_id               = each.value.object_id
-  key_permissions         = each.value.key_permissions
-  secret_permissions      = each.value.secret_permissions
-  certificate_permissions = each.value.certificate_permissions
-}
