@@ -76,3 +76,12 @@ variable "private_endpoint_kv_subresource_names" {
   description = "A list of subresource names which the Private Endpoint is able to connect to."
   default     = ["vault"]
 }
+
+variable "private_dns_zone_info" {
+  type = object({
+    dns_zone_name = string
+    dns_zone_ids  = list(string)
+  })
+  description = "Details about DNS zones"
+  default     = null
+}
