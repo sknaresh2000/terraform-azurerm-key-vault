@@ -85,3 +85,14 @@ variable "private_dns_zone_info" {
   description = "Details about DNS zones"
   default     = null
 }
+
+variable "access_policies" {
+  type = map(object({
+    object_id               = string
+    key_permissions         = list(string)
+    secret_permissions      = list(string)
+    certificate_permissions = list(string)
+  }))
+  description = "List of access policies that will be added to this key vault"
+  default     = {}
+}

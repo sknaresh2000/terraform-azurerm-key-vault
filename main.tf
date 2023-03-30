@@ -41,3 +41,24 @@ resource "azurerm_private_endpoint" "pe" {
     }
   }
 }
+
+resource "azurerm_key_vault_access_policy" "access_policies" {
+  for_each                = local.access_policies
+  key_vault_id            = module.key-vault.id
+  tenant_id               = data.azurerm_client_config.current.tenant_id
+  object_id               = each.value.object_id
+  key_permissions         = each.value.key_permissions
+  secret_permissions      = each.value.secret_permissions
+  certificate_permissions = each.value.certificate_permissions
+}
+
+locals {
+  access_policies = merge(var.access_policies, {
+    self = {
+      object_id               = data.azurerm_client_config.current.object_id
+      key_permissions         = ["Get", "List"]
+      secret_permissions      = ["Get", "List"]
+      certificate_permissions = ["Get", "List"]
+    }
+  })
+}
