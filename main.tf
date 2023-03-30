@@ -44,7 +44,7 @@ resource "azurerm_private_endpoint" "pe" {
 
 resource "azurerm_key_vault_access_policy" "access_policies" {
   for_each                = local.access_policies
-  key_vault_id            = module.key-vault.id
+  key_vault_id            = azurerm_key_vault.kv.id
   tenant_id               = data.azurerm_client_config.current.tenant_id
   object_id               = each.value.object_id
   key_permissions         = each.value.key_permissions
