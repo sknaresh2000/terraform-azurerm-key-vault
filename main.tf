@@ -10,9 +10,10 @@ resource "azurerm_key_vault" "kv" {
   purge_protection_enabled      = var.purge_protection_enabled
   sku_name                      = var.sku_name
   public_network_access_enabled = var.public_network_access_enabled
+  enable_rbac_authorization     = var.enable_rbac_authorization
   tags                          = var.tags
   dynamic "network_acls" {
-    for_each = var.public_network_access_enabled == false && var.network_acls != null ? [1] : []
+    for_each = var.network_acls != null ? [1] : []
     content {
       bypass                     = var.network_acls.bypass_services_info
       default_action             = var.network_acls.default_action
@@ -43,22 +44,11 @@ resource "azurerm_private_endpoint" "pe" {
 }
 
 resource "azurerm_key_vault_access_policy" "access_policies" {
-  for_each                = local.access_policies
+  for_each                = var.access_policies
   key_vault_id            = azurerm_key_vault.kv.id
   tenant_id               = data.azurerm_client_config.current.tenant_id
   object_id               = each.value.object_id
   key_permissions         = each.value.key_permissions
   secret_permissions      = each.value.secret_permissions
   certificate_permissions = each.value.certificate_permissions
-}
-
-locals {
-  access_policies = merge(var.access_policies, {
-    self = {
-      object_id               = data.azurerm_client_config.current.object_id
-      key_permissions         = ["Get", "List"]
-      secret_permissions      = ["Get", "List"]
-      certificate_permissions = ["Get", "List"]
-    }
-  })
 }

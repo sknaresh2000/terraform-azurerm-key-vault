@@ -96,3 +96,9 @@ variable "access_policies" {
   description = "List of access policies that will be added to this key vault"
   default     = {}
 }
+
+variable "enable_rbac_authorization" {
+  type        = bool
+  description = "Boolean flag to specify whether Azure Key Vault uses Role Based Access Control (RBAC) for authorization of data actions."
+  default     = true
+}
